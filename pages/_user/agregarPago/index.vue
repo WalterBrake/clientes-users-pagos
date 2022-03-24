@@ -7,8 +7,7 @@ div( v-if="$v")
     :message="$v.monto.$error ? 'Obligatorio' : ''"
   )
     b-input(v-model="monto")
- 
-
+    
   .container.mt-5
     .is-align-items-center.is-flex.is-justify-content-end
       b-button(
@@ -25,9 +24,7 @@ import { required, decimal } from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
-
-  name: "form-element",
-
+  name: "add-payment",
   data() {
     return {
       monto: undefined,
@@ -71,17 +68,4 @@ export default {
 };
 </script>
 <style scoped>
-.handler-item {
-  cursor: move;
-}
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
 </style>

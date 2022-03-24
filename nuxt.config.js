@@ -1,51 +1,37 @@
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
+  // Global page headers
   head: {
-    title: 'app-pagos',
+    title: "app-pagos",
     htmlAttrs: {
-      lang: 'en'
+      lang: "en",
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" },
+      { name: "format-detection", content: "telephone=no" },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  // Global CSS
+  css: [],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '@/plugins/vuelidate', ssr: false },
-  ],
+  // Plugins to run before rendering page
+  plugins: [{ src: "@/plugins/vuelidate", ssr: false }],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
+  // Auto import components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
+  // Modules for dev and build (recommended)
+  buildModules: [],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  // Modules
   modules: [
     // https://go.nuxtjs.dev/buefy
-    'nuxt-buefy',
-    '@nuxtjs/axios'
+    "nuxt-buefy",
+    "@nuxtjs/axios",
   ],
-  axios: {
-    headers : {
-      common: {
-        'Authorization' : 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwUGFINU55VXRxTUkzMDZtajdZVHdHV3JIZE81cWxmaCIsImlhdCI6MTYyMDY2Mjk4NjIwM30.lhfzSXW9_TC67SdDKyDbMOYiYsKuSk6bG6XDE1wz2OL4Tq0Og9NbLMhb0LUtmrgzfWiTrqAFfnPldd8QzWvgVQ'
-      }
-    }
-  },
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
-}
+  // Build Configuration
+  build: {},
+};

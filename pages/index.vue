@@ -9,8 +9,6 @@ section.section.pt-5.templates
         b-table(
           :data="usersData",
           ref="table",
-          paginated="",
-          per-page="5",
           :opened-detailed="openedElementsArray",
           detailed="",
           detail-key="userId",
@@ -70,14 +68,11 @@ export default {
   name: "plantillas",
   async asyncData({ $axios }) {
     const request = await $axios.$get("http://localhost:4000/api/users");
-    console.log(request);
+
     return { usersData: request.data };
   },
   data() {
     return {
-      elementIdSelected: undefined,
-      isComponentModalActive: false,
-      isComponentModalPaymentActive: false,
       openedElementsArray: [1],
     };
   },

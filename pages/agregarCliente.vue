@@ -25,10 +25,8 @@ div( v-if="$v")
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import {
-  required
-} from 'vuelidate/lib/validators'
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
@@ -39,8 +37,7 @@ export default {
     return {
       name: undefined,
       telephone: undefined,
-    }
-
+    };
   },
 
   validations: {
@@ -49,12 +46,11 @@ export default {
   },
   methods: {
     createClient: async function (newElement) {
-
-      this.blockForm = true
-      this.$v.$reset()
-      this.$v.$touch()
+      this.blockForm = true;
+      this.$v.$reset();
+      this.$v.$touch();
       if (this.$v.$anyError) {
-        this.blockForm = false
+        this.blockForm = false;
 
         this.$buefy.toast.open({
           duration: 5000,
@@ -63,38 +59,23 @@ export default {
           type: "is-primary",
         });
 
-        return
+        return;
       }
 
       const request = await this.$axios.$post(
-        "http://localhost:4000/api/users",{
-          name:this.name,telephone:this.telephone
+        "http://localhost:4000/api/users",
+        {
+          name: this.name,
+          telephone: this.telephone,
         }
       );
 
-      if(request.code==1000){
-        this.$router.push(`/`)
-
+      if (request.code == 1000) {
+        this.$router.push(`/`);
       }
-
-
-
     },
   },
 };
 </script>
 <style scoped>
-.handler-item {
-  cursor: move;
-}
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
 </style>
