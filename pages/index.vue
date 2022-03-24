@@ -1,82 +1,77 @@
 <template lang="pug">
 section.section.pt-5.templates
-  b-modal(
-    v-model="isComponentModalActive",
-    has-modal-card="",
-    trap-focus="",
-    :destroy-on-hide="false",
-    aria-role="dialog",
-    aria-label="Example Modal",
-    close-button-aria-label="Close",
-    aria-modal=""
-  )
-    Modal(@close="isComponentModalActive = false", v-on:addelement="addElement")
-  b-modal(
-    v-model="isComponentModalPaymentActive",
-    has-modal-card="",
-    trap-focus="",
-    :destroy-on-hide="false",
-    aria-role="dialog",
-    aria-label="Example Modal",
-    close-button-aria-label="Close",
-    aria-modal=""
-  )
-    Payment(@close="isComponentModalActive = false", v-on:addelement="addElement")
-
   .columns.is-mobile.is-full.pb-3
     .column
       .container
-        p.is-size-4 Ordenes de compra
+        p.is-size-4 Clientes
 
       section
         b-table(
-          :data="orders",
+          :data="usersData",
           ref="table",
           paginated="",
           per-page="5",
           :opened-detailed="openedElementsArray",
           detailed="",
-          detail-key="id",
+          detail-key="userId",
           :detail-transition="'fade'",
           aria-next-label="Next page",
           aria-previous-label="Previous page",
           aria-page-label="Page",
           aria-current-label="Current page"
         )
-          b-table-column(field="id", label="Id", v-slot="props")
-            | {{ props.row.id }}
-          b-table-column(field="Number", label="number", v-slot="props")
-            | {{ props.row.number }}
-          b-table-column(field="currency", label="currency", v-slot="props")
-            | {{ props.row.currency }}
-          b-table-column(field="status", label="status", v-slot="props")
-            | {{ props.row.status.financial }}
+          b-table-column(field="id", label="ID", v-slot="props")
+            | {{ props.row.userId }}
+          b-table-column(field="Number", label="Cliente", v-slot="props")
+            | {{ `Nombre: ${props.row.name} Teléfono: ${props.row.telephone} Último pago: ${new Date(props.row.lastPayment).toLocaleString('es-MX')}` }}
+         
 
           template(#detail="props")
-            Products(:dataProducts="props.row.items")
+            p(v-if="props.row.Payments.length==0" class="has-text-centered") No hay pagos
+            b-table( 
+                v-if="props.row.Payments.length!=0"
+                :data="props.row.Payments",
+                ref="table",
+                :opened-detailed="openedElementsArray",
+                
+                detail-key="paymentId",
+                :detail-transition="'fade'",
+                aria-next-label="Next page",
+                aria-previous-label="Previous page",
+                aria-page-label="Page",
+                aria-current-label="Current page"
+              )
+                b-table-column(field="id", label="ID", v-slot="data")
+                  | {{ data.row.paymentId }}
+                b-table-column(field="Number", label="Monto", v-slot="data")
+                  | {{ `Nombre: ${data.row.monto}` }}
+                b-table-column(field="id", label="Fecha y hora", v-slot="data")
+                  | {{  new Date(data.row.createdAt).toLocaleString('es-MX')}}
+
+          
             .container.mt-5
               .is-align-items-center.is-flex.is-justify-content-end
                 b-button(
                   type="is-primary is-small",
-                  @click="isComponentModalActive = true; elementIdSelected = props.row.id"
-                ) Añadir elemento
-                b-button(
-                  type="is-info is-small ml-5  ",
-                  @click="isComponentModalPaymentActive = true"
-                ) Pagar orden
+                  @click="addPayment(props.row.userId)"
+                ) Añadir pago 
+      section
+        .container.mt-5
+          .is-align-items-center.is-flex.is-justify-content-end
+            b-button(
+              type="is-primary is-small",
+              @click="addClient()"
+            ) Añadir cliente
+               
 </template>
 
 <script>
 export default {
   name: "plantillas",
   async asyncData({ $axios }) {
-    console.log($axios.defaults.headers.common);
-
-    const request = await $axios.$get(
-      "https://eshop-deve.herokuapp.com/api/v2/orders"
-    );
+    const request = await $axios.$get("http://localhost:4000/api/users");
     console.log(request);
-    return { orders: request.orders };
+    return { usersData: request.data };
   },
   data() {
     return {
@@ -87,22 +82,18 @@ export default {
     };
   },
   methods: {
-    addElement: function (elementTemplate) {
-      for (let o in this.orders) {
-        if (this.orders[o].id === this.elementIdSelected) {
-          this.orders[o].items.push(elementTemplate);
-        }
-      }
-
-      this.isComponentModalActive = false;
+    addClient: function (elementTemplate) {
+      this.$router.push(`/agregarCliente`);
+    },
+    addPayment: function (userId) {
+      this.$router.push(`/${userId}/agregarPago`);
     },
   },
 };
 </script>
 
-<style >
+<style>
 .b-table .table {
-      background-color: #e5f5ff;
-
+  background-color: #e5f5ff;
 }
 </style>
